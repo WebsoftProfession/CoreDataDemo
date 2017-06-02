@@ -1,4 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="Test1.xcdatamodel" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
-    <elements/>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7549" systemVersion="14F27" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="FriendsInfo" representedClassName="FriendsInfo" syncable="YES">
+        <attribute name="profile_pic" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="user_age" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="user_name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="alsofriend" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="UserInfo" inverseName="friends" inverseEntity="UserInfo" syncable="YES"/>
+    </entity>
+    <entity name="UserInfo" representedClassName="UserInfo" syncable="YES">
+        <attribute name="profile_pic" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="user_age" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="user_name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="user_password" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="friends" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="FriendsInfo" inverseName="alsofriend" inverseEntity="FriendsInfo" syncable="YES"/>
+    </entity>
+    <entity name="UserProfileDetails" representedClassName="UserProfileDetails" syncable="YES">
+        <attribute name="profile_pic" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="user_name" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="FriendsInfo" positionX="-99" positionY="-216" width="128" height="103"/>
+        <element name="UserInfo" positionX="-387" positionY="-226" width="128" height="118"/>
+        <element name="UserProfileDetails" positionX="-459" positionY="-0" width="128" height="73"/>
+    </elements>
 </model>

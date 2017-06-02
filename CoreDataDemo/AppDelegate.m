@@ -2,22 +2,109 @@
 //  AppDelegate.m
 //  CoreDataDemo
 //
-//  Created by Dotsquares on 2/4/16.
-//  Copyright (c) 2016 Dotsquares. All rights reserved.
+//  Created by WebsoftProfession on 2/4/16.
+//   2016 WebsoftProfession. All rights reserved.
 //
 
 #import "AppDelegate.h"
+#import "menuVIewController.h"
 
 @interface AppDelegate ()
 
 @end
 
 @implementation AppDelegate
-
+@synthesize menuWindow=_menuWindow;
+@synthesize isHidden=_isHidden;
+@synthesize maskView=_maskView;
+@synthesize user=_user;
+@synthesize profileInfo=_profileInfo;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+  NSURL *url= [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+    
+    _user=[NSUserDefaults standardUserDefaults];
+    UINavigationController *nav=[[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"mainNavigation"];
+    
+    if ([self checkUserAccountAvailable]) {
+        
+        
+        
+        UIViewController *homeVC=[[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"homeVC"];
+        
+        [nav setViewControllers:@[homeVC]];
+        
+        [self.window setRootViewController:nav];
+    }
+    else
+    {
+        
+        UIViewController *loginVC=[[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"loginVC"];
+        [nav setViewControllers:@[loginVC]];
+        
+        [self.window setRootViewController:nav];
+
+    }
+    
+    
+    
+    
+    
+    
+   
+    
+    _maskView=[[UIView alloc] init];
+    _maskView.frame=[UIScreen mainScreen].bounds;
+    _maskView.backgroundColor=[UIColor blackColor];
+    _maskView.alpha=0.0;
+    
+    UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(maskTouched:)];
+    [self.maskView addGestureRecognizer:tap];
+    
+    menuVIewController *menuVC=[[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"menuVC"];
+    CGRect windowFrame=[UIScreen mainScreen].bounds;
+    //windowFrame.origin.x=self.window.frame.origin.x-windowFrame.size.width;
+    windowFrame.size.width=windowFrame.size.width/2+65;
+    _menuWindow=[[UIWindow alloc] initWithFrame:windowFrame];
+    _menuWindow.rootViewController=menuVC;
+    //_menuWindow.windowLevel=UIWindowLevelStatusBar;
+    _menuWindow.clipsToBounds=YES;
+    
+    [_menuWindow  makeKeyAndVisible];
+    //[self.window makeKeyWindow];
+    [self.window makeKeyAndVisible];
+    _isHidden=YES;
+    
+    
+    
+    
+    //NSURL *mm=[[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
     return YES;
+}
+
+-(BOOL)checkUserAccountAvailable
+{
+    NSUserDefaults *user=[NSUserDefaults standardUserDefaults];
+    BOOL success=[UserInfo checkUserData:[user valueForKey:@"user_name"] andPass:[user valueForKey:@"user_password"]];
+    
+    
+    return success;
+    
+}
+
+-(void)maskTouched:(UITapGestureRecognizer *)tapG
+{
+    CGRect controllerFrame=[UIScreen mainScreen].bounds;
+    
+    
+    [UIView animateWithDuration:0.2 animations:^{
+        theAppDelegate.maskView.alpha=0.0;
+        theAppDelegate.window.frame=controllerFrame;
+    }];
+    theAppDelegate.isHidden=YES;
+    [theAppDelegate.maskView removeFromSuperview];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -52,6 +139,8 @@
 
 - (NSURL *)applicationDocumentsDirectory {
     // The directory the application uses to store the Core Data store file. This code uses a directory named "TD.CoreDataDemo" in the application's documents directory.
+    
+    
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 

@@ -2,8 +2,8 @@
 //  CoreDataDemoTests.m
 //  CoreDataDemoTests
 //
-//  Created by Dotsquares on 2/4/16.
-//  Copyright (c) 2016 Dotsquares. All rights reserved.
+//  Created by WebsoftProfession on 2/4/16.
+//   2016 WebsoftProfession. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
